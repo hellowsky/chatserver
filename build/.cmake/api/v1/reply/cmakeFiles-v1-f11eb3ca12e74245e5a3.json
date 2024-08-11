@@ -134,8 +134,8 @@
 	"kind" : "cmakeFiles",
 	"paths" : 
 	{
-		"build" : "/home/sky/code/chat/build",
-		"source" : "/home/sky/code/chat"
+		"build" : "/home/sky/code/chat/chatserver/build",
+		"source" : "/home/sky/code/chat/chatserver"
 	},
 	"version" : 
 	{

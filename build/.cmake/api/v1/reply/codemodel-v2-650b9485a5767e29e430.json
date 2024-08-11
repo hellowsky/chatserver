@@ -89,14 +89,14 @@
 				{
 					"directoryIndex" : 3,
 					"id" : "ChatClient::@8ca63c80a879d0067daa",
-					"jsonFile" : "target-ChatClient-Debug-29ccf5a9b559993e380c.json",
+					"jsonFile" : "target-ChatClient-Debug-079bba86f30fad6d06ba.json",
 					"name" : "ChatClient",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 2,
 					"id" : "ChatServer::@2804e40980a64c7d7ad1",
-					"jsonFile" : "target-ChatServer-Debug-f6abfd7b43a62e78f3c3.json",
+					"jsonFile" : "target-ChatServer-Debug-5ec1941fed556647fcff.json",
 					"name" : "ChatServer",
 					"projectIndex" : 0
 				}
@@ -106,8 +106,8 @@
 	"kind" : "codemodel",
 	"paths" : 
 	{
-		"build" : "/home/sky/code/chat/build",
-		"source" : "/home/sky/code/chat"
+		"build" : "/home/sky/code/chat/chatserver/build",
+		"source" : "/home/sky/code/chat/chatserver"
 	},
 	"version" : 
 	{

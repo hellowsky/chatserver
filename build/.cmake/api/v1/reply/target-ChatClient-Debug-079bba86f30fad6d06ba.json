@@ -2,7 +2,7 @@
 	"artifacts" : 
 	[
 		{
-			"path" : "/home/sky/code/chat/bin/ChatClient"
+			"path" : "/home/sky/code/chat/chatserver/bin/ChatClient"
 		}
 	],
 	"backtrace" : 1,
@@ -42,30 +42,6 @@
 			{
 				"command" : 2,
 				"file" : 1,
-				"line" : 13,
-				"parent" : 3
-			},
-			{
-				"command" : 2,
-				"file" : 1,
-				"line" : 14,
-				"parent" : 3
-			},
-			{
-				"command" : 2,
-				"file" : 1,
-				"line" : 15,
-				"parent" : 3
-			},
-			{
-				"command" : 2,
-				"file" : 1,
-				"line" : 16,
-				"parent" : 3
-			},
-			{
-				"command" : 2,
-				"file" : 1,
 				"line" : 17,
 				"parent" : 3
 			},
@@ -73,6 +49,30 @@
 				"command" : 2,
 				"file" : 1,
 				"line" : 18,
+				"parent" : 3
+			},
+			{
+				"command" : 2,
+				"file" : 1,
+				"line" : 19,
+				"parent" : 3
+			},
+			{
+				"command" : 2,
+				"file" : 1,
+				"line" : 20,
+				"parent" : 3
+			},
+			{
+				"command" : 2,
+				"file" : 1,
+				"line" : 21,
+				"parent" : 3
+			},
+			{
+				"command" : 2,
+				"file" : 1,
+				"line" : 22,
 				"parent" : 3
 			}
 		]
@@ -90,27 +90,27 @@
 			[
 				{
 					"backtrace" : 4,
-					"path" : "/home/sky/code/chat/include"
+					"path" : "/home/sky/code/chat/chatserver/include"
 				},
 				{
 					"backtrace" : 5,
-					"path" : "/home/sky/code/chat/include/server"
+					"path" : "/home/sky/code/chat/chatserver/include/server"
 				},
 				{
 					"backtrace" : 6,
-					"path" : "/home/sky/code/chat/include/server/db"
+					"path" : "/home/sky/code/chat/chatserver/include/server/db"
 				},
 				{
 					"backtrace" : 7,
-					"path" : "/home/sky/code/chat/include/server/model"
+					"path" : "/home/sky/code/chat/chatserver/include/server/model"
 				},
 				{
 					"backtrace" : 8,
-					"path" : "/home/sky/code/chat/include/server/redis"
+					"path" : "/home/sky/code/chat/chatserver/include/server/redis"
 				},
 				{
 					"backtrace" : 9,
-					"path" : "/home/sky/code/chat/thirdparty"
+					"path" : "/home/sky/code/chat/chatserver/thirdparty"
 				}
 			],
 			"language" : "CXX",
