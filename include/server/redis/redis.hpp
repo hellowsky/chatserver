@@ -7,6 +7,7 @@
 
 class Redis{
     public:
+    
     Redis();
     ~Redis();
 

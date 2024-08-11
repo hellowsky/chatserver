@@ -35,7 +35,7 @@ int main(int argc, char **argv)
     InetAddress addr(ip, port);
 
     // 创建服务器
-    ChatServer server(&loop, addr, "chatserver");
+    ChatServer server(&loop, addr, "ChatServer");
 
     // 启动服务器
     server.start();

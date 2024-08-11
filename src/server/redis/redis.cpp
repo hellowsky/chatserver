@@ -60,9 +60,13 @@ bool Redis::publish(int channel, std::string message)
 // 向
 bool Redis::subscribe(int channel)
 {
+    // SUBSCRIBE命令本身会造成线程阻塞等待通道里面发生消息，这里只做订阅通道，不接收通道消息
+    // 通道消息的接收专门在observer_channel_message函数中的独立线程中进行
+    // 只负责发送命令，不阻塞接收redis server响应消息，否则和notifyMsg线程抢占响应资源
     if (REDIS_ERR == redisAppendCommand(_subscribe_context, "SUBSCRIBE %d", channel))
     {
         std::cerr << "subscribe channel error" << std::endl;
+        return false;
     }
 
     // redisBufferWrite可以循环发送缓冲区 知道缓冲区的数据发送完毕(done被置为1)
@@ -79,6 +83,7 @@ bool Redis::subscribe(int channel)
     return true;
 }
 
+// 向redis指定的通道unsubscribe取消订阅消息
 bool Redis::unsubscibe(int channel)
 {
     if (REDIS_ERR == redisAppendCommand(this->_subscribe_context, "UNSUBSCRIBE %d", channel))
@@ -100,21 +105,64 @@ bool Redis::unsubscibe(int channel)
     return true;
 }
 
+// void Redis::observer_channel_message()
+// {
+//     redisReply *reply = nullptr;
+//     while (REDIS_OK == redisGetReply(this->_subscribe_context, (void **)&reply))
+//     {
+//         // 订阅收到的信息是一个带三个元素的数组
+//         if (reply != nullptr && reply->element[1] != nullptr && reply->element[2]->str != nullptr)
+//         {
+//             //给业务层上报  通道上发生的消息
+//             _notify_message_handler(atoi(reply->element[1]->str), reply->element[2]->str);
+//         }
+//         freeReplyObject(reply);
+//     }
+//     std::cerr << ">>>>>>>>>>>>>>>>>>>>>>>>>>> observer_channel_message quit <<<<<<<<<<<<<<<<<<<<<<<<<" << std::endl;
+// }
+
 void Redis::observer_channel_message()
 {
     redisReply *reply = nullptr;
     while (REDIS_OK == redisGetReply(this->_subscribe_context, (void **)&reply))
     {
-        // 订阅收到的信息是一个带三个元素的数组
-        if (reply != nullptr && reply->element[1] != nullptr && reply->element[2]->str != nullptr)
+        if (reply != nullptr)
         {
-            //给业务层上报  通道上发生的消息
-            _notify_message_handler(atoi(reply->element[1]->str), reply->element[2]->str);
+            // 确保回复包含至少三个元素
+            if (reply->type == REDIS_REPLY_ARRAY && reply->elements >= 3)
+            {
+                // 确保第二个和第三个元素都不为空
+                if (reply->element[1] != nullptr && reply->element[2] != nullptr &&
+                    reply->element[1]->str != nullptr && reply->element[2]->str != nullptr)
+                {
+                    // 给业务层上报  通道上发生的消息
+                    _notify_message_handler(atoi(reply->element[1]->str), reply->element[2]->str);
+                }
+                else
+                {
+                    std::cerr << "Invalid reply format from Redis subscription context." << std::endl;
+                }
+            }
+            else
+            {
+                std::cerr << "Unexpected reply type from Redis subscription context." << std::endl;
+            }
+        }
+        else
+        {
+            std::cerr << "Received null reply from Redis subscription context." << std::endl;
         }
         freeReplyObject(reply);
     }
+
+    if (redisGetReply(this->_subscribe_context, (void **)&reply) == REDIS_ERR)
+    {
+        std::cerr << "Error getting reply from Redis subscription context: "  << std::endl;
+    }
+
     std::cerr << ">>>>>>>>>>>>>>>>>>>>>>>>>>> observer_channel_message quit <<<<<<<<<<<<<<<<<<<<<<<<<" << std::endl;
 }
+
 
 void Redis::init_notify_handler(std::function<void(int, std::string)> fn)
 {
