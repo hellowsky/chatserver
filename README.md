@@ -1,5 +1,5 @@
 # chatserver
-基于Nginx tcp负载均衡的集群聊天服务器
+聊天服务器
 
 编译方式
 cd build
